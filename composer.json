@@ -41,5 +41,6 @@
                 "Zaxxas\\NotifyToChatTools\\Providers\\NotificationServiceProvider"
             ]
         }
-    }
+    },
+    "minimum-stability": "dev"
 }

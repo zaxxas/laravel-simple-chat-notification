@@ -1,0 +1,1 @@
+{"version":1,"defects":{"Illuminate\\Tests\\Notifications\\SlackNotificationTest::test_No_Webhook_Url":8},"times":{"Illuminate\\Tests\\Notifications\\SlackNotificationTest::testHoge":0.002,"Illuminate\\Tests\\Notifications\\SlackNotificationTest::test_No_Webhook_Url":0.006}}

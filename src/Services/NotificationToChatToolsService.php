@@ -7,7 +7,7 @@ use Zaxxas\NotifyToChatTools\Dtos\NotificationMessageContent;
 use NotificationToolInterface;
 use Log;
 
-class NotificationToChatToolService
+class NotificationToChatToolsService
 {
     /**
      * @param NotificationMessageContent $messageContent

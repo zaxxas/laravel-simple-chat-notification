@@ -3,7 +3,7 @@
 namespace Illuminate\Tests\Notifications;
 
 use PHPUnit\Framework\TestCase;
-use Zaxxas\NotifyToChatTools\Services\NotificationToChatToolService;
+use Zaxxas\NotifyToChatTools\Services\NotificationToChatToolsService;
 use Zaxxas\NotifyToChatTools\Dtos\NotificationMessageContent;
 
 class SlackNotificationTest extends TestCase
@@ -29,7 +29,7 @@ class SlackNotificationTest extends TestCase
             ['key1' => 'value1', 'key2' => 'value2'],
             []
         );
-        $service = new NotificationToChatToolService();
+        $service = new NotificationToChatToolsService();
         try {
             $service->notify($messageContent);
         } catch (\Exception $e) {

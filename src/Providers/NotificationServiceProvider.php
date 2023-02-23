@@ -2,7 +2,7 @@
 
 namespace Zaxxas\NotifyToChatTools\Providers;
 
-use Zaxxas\NotifyToChatTools\Services\NotificationToChatToolService;
+use Zaxxas\NotifyToChatTools\Services\NotificationToChatToolsService;
 use Zaxxas\NotifyToChatTools\Services\SlackNotificationService;
 use Zaxxas\NotifyToChatTools\Services\TeamsNotificationService;
 use Zaxxas\NotifyToChatTools\Services\LineNotificationService;
@@ -13,7 +13,7 @@ class NotificationServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/config/notification.php' => config_path('notification.php'),
+            __DIR__ . '../config/notification.php' => config_path('notification.php'),
         ]);
     }
     /**
@@ -24,7 +24,7 @@ class NotificationServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton("notificationToChatTool", function () {
-            return new NotificationToChatToolService();
+            return new NotificationToChatToolsService();
         });
         $this->app->bind(SlackNotificationService::class, function ($app) {
             return new SlackNotificationService(new \GuzzleHttp\Client());

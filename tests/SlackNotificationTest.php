@@ -29,7 +29,7 @@ class SlackNotificationTest extends TestCase
             ['key1' => 'value1', 'key2' => 'value2'],
             []
         );
-        $service = new NotificationToChatToolService;
+        $service = new NotificationToChatToolService();
         try {
             $service->notify($messageContent);
         } catch (\Exception $e) {

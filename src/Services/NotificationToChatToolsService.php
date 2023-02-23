@@ -38,11 +38,11 @@ class NotificationToChatToolService
     {
         switch ($tool) {
             case NotificationTool::Slack->value:
-                return new SlackNotificationService;
+                return new SlackNotificationService();
             case NotificationTool::Teams->value:
-                return new TeamsNotificationService;
+                return new TeamsNotificationService();
             case NotificationTool::Line->value:
-                return new LineNotificationService;
+                return new LineNotificationService();
             default:
                 throw new \Exception("Invalid Notification Tool");
         }

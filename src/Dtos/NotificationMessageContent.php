@@ -4,10 +4,10 @@ namespace Zaxxas\NotifyToChatTools\Dtos;
 
 class NotificationMessageContent
 {
-    readonly ?string $title;
-    readonly ?string $message;
-    readonly ?array $keyValueFields;
-    readonly ?array $options;
+    public readonly ?string $title;
+    public readonly ?string $message;
+    public readonly ?array $keyValueFields;
+    public readonly ?array $options;
 
     public function __construct(?string $title, ?string $message, array $keyValueFields = [], array $options = [])
     {

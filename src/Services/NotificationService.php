@@ -31,7 +31,7 @@ abstract class NotificationService
      *
      * @return string|null
      */
-    protected abstract function url(): ?string;
+    abstract protected function url(): ?string;
 
     /**
      * Undocumented function
@@ -39,14 +39,14 @@ abstract class NotificationService
      * @param array $content
      * @return array|null
      */
-    protected abstract function buildJsonPayload(NotificationMessageContent $content): ?array;
+    abstract protected function buildJsonPayload(NotificationMessageContent $content): ?array;
 
     /**
      * Undocumented function
      *
      * @return array
      */
-    protected abstract function postHeader(): array|string;
+    abstract protected function postHeader(): array|string;
 
     /**
      * Undocumented function

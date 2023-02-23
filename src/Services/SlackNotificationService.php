@@ -3,7 +3,6 @@
 namespace Zaxxas\NotifyToChatTools\Services;
 
 use Zaxxas\NotifyToChatTools\Dtos\NotificationMessageContent;
-use GuzzleHttp\Client;
 use Psr\Http\Client\ClientInterface;
 
 class SlackNotificationService extends NotificationService

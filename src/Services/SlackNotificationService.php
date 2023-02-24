@@ -3,17 +3,16 @@
 namespace Zaxxas\NotifyToChatTools\Services;
 
 use Zaxxas\NotifyToChatTools\Dtos\NotificationMessageContent;
-use Psr\Http\Client\ClientInterface;
+use GuzzleHttp\Client;
 
 class SlackNotificationService extends NotificationService
 {
-    private readonly string $defaultChannel;
-    private readonly string $username;
+    private readonly ?string $defaultChannel;
+    private readonly ?string $username;
 
-    public function __construct(ClientInterface $http)
+    public function __construct()
     {
-        parent::__construct($http);
-
+        parent::__construct();
         $this->defaultChannel = config('notification.slack.channel');
         $this->username = config('notification.slack.username');
     }
@@ -63,7 +62,7 @@ class SlackNotificationService extends NotificationService
      */
     protected function url(): ?string
     {
-        return config('notification.teams.webhook_url');
+        return config('notification.slack.webhook_url');
     }
 
     /**
@@ -75,7 +74,7 @@ class SlackNotificationService extends NotificationService
     protected function postHeader(): array|string
     {
         return [
-            'Content-Type' => 'application/json'
+            'Content-Type' => 'application/x-www-form-urlencoded'
         ];
     }
 }

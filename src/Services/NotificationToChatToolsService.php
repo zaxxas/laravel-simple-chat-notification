@@ -15,16 +15,17 @@ class NotificationToChatToolsService
      */
     public function notify(NotificationMessageContent $messageContent): bool
     {
-        $notificationTool = config('notification.tool');
+        $notificationTool = NotificationTool::tryFrom(config('notification.tool'));
 
         if (empty($notificationTool)) {
-            throw new \Exception("Not Found Notification Target Tool.");
+            throw new \Exception("Invalid Notification Tool is specified. Please check env variables.");
         }
 
         $toolService = $this->createNotificationInstance($notificationTool);
         try {
             return $toolService->send($messageContent);
         } catch (\Exception $e) {
+            // ignore errors
             Log::error("Failed to notfy.", [
                 "tool" => $notificationTool,
                 "messageContent" => $messageContent,
@@ -36,7 +37,7 @@ class NotificationToChatToolsService
 
     private function createNotificationInstance(NotificationTool $tool): NotificationService
     {
-        switch ($tool) {
+        switch ($tool->value) {
             case NotificationTool::Slack->value:
                 return new SlackNotificationService;
             case NotificationTool::Teams->value:

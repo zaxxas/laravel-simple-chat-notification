@@ -3,9 +3,15 @@
 namespace Zaxxas\NotifyToChatTools\Services;
 
 use Zaxxas\NotifyToChatTools\Dtos\NotificationMessageContent;
+use GuzzleHttp\Client;
 
 class TeamsNotificationService extends NotificationService
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      * @override
      * @param NotificationMessageContent $content

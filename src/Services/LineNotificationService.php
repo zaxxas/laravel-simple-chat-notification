@@ -9,9 +9,9 @@ class LineNotificationService extends NotificationService
 {
     private readonly string $token;
 
-    public function __construct(Client $http)
+    public function __construct()
     {
-        parent::__construct($http);
+        parent::__construct();
         $this->token = config('notification.line.token');
     }
 

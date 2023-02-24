@@ -9,9 +9,9 @@ abstract class NotificationService
 {
     protected Client $http;
 
-    public function __construct(Client $http)
+    public function __construct()
     {
-        $this->http = $http;
+        $this->http = new \GuzzleHttp\Client();
     }
 
     /**
@@ -23,7 +23,15 @@ abstract class NotificationService
         if (!$this->canSend()) {
             throw new \Exception("Stop to send a message, because of some reasons, for example, lack of needed parameters");
         }
-        return $this->http->post($this->url(), $this->buildJsonPayload($content));
+        $result = $this->http->post($this->url(), [
+            "header"  => $this->postHeader(),
+            "json" => $this->buildJsonPayload($content),
+        ]);
+        if ($result->getStatusCode() === 200) {
+            return true;
+        }
+        \Log::error('Failed to send a message', ['result' => $result]);
+        return false;
     }
 
     /**
@@ -55,6 +63,6 @@ abstract class NotificationService
      */
     protected function canSend(): bool
     {
-        return !empty($this->url());
+        return !empty($this->url()) && isset($this->http);
     }
 }

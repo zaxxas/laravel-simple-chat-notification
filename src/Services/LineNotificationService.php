@@ -3,7 +3,6 @@
 namespace Zaxxas\NotifyToChatTools\Services;
 
 use Zaxxas\NotifyToChatTools\Dtos\NotificationMessageContent;
-use GuzzleHttp\Client;
 
 class LineNotificationService extends NotificationService
 {

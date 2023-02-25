@@ -4,12 +4,12 @@ namespace Zaxxas\NotifyToChatTools\Services;
 
 use Zaxxas\NotifyToChatTools\Enums\NotificationTool;
 use Zaxxas\NotifyToChatTools\Dtos\NotificationMessageContent;
-use NotificationToolInterface;
 use Log;
 
 class NotificationToChatToolsService
 {
     /**
+     * Notify to the target tool.
      * @param NotificationMessageContent $messageContent
      * @return boolean
      */
@@ -24,7 +24,6 @@ class NotificationToChatToolsService
         try {
             return $toolService->send($messageContent);
         } catch (\Exception $e) {
-            // ignore errors
             Log::error("Failed to notfy.", [
                 "tool" => $notificationTool,
                 "messageContent" => $messageContent,
@@ -35,12 +34,11 @@ class NotificationToChatToolsService
     }
 
     /**
-     * Undocumented function
-     *
+     * Create Service Instance corresponding to the given tool.
      * @param NotificationTool $tool
-     * @return NotificationService
+     * @return NotificationServiceInterface
      */
-    private function createNotificationInstance(NotificationTool $tool): NotificationService
+    private function createNotificationInstance(NotificationTool $tool): NotificationServiceInterface
     {
         switch ($tool->value) {
             case NotificationTool::Slack->value:

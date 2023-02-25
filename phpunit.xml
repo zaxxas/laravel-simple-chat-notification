@@ -15,10 +15,10 @@
     <php>
         <env name="APP_ENV" value="testing" />
         <env name="NOTIFICATION_TOOL" value="slack" />
-        <env name="TEAMS_WEBHOOK_URL" value="hoge" />
-        <env name="SLACK_WEBHOOK_URL" value="hoge" />
-        <env name="SLACK_CHANNEL" value="hoge" />
-        <env name="SLACK_SENDER_NAME" value="hoge" />
+        <env name="TEAMS_WEBHOOK_URL" value="" />
+        <env name="SLACK_WEBHOOK_URL" value="" />
+        <env name="SLACK_NOTIFICATION_CHANNEL" value="" />
+        <env name="SLACK_NOTIFICATION_SENDAR_NAME" value="hoge" />
         <env name="LINE_API_ENDPOINT" value="hoge" />
         <env name="LINE_API_TOKEN" value="hoge" />
     </php>

@@ -6,9 +6,7 @@ use Orchestra\Testbench\TestCase;
 use Zaxxas\NotifyToChatTools\Services\NotificationToChatToolsService;
 use Zaxxas\NotifyToChatTools\Dtos\NotificationMessageContent;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Env;
-use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 
 class SlackNotificationTest extends TestCase
 {
@@ -17,8 +15,8 @@ class SlackNotificationTest extends TestCase
         parent::setUp();
         Config::set('notification.tool', 'slack');
         Config::set('notification.slack.webhook_url', Env::get('SLACK_WEBHOOK_URL'));
-        Config::set('notification.slack.channel', Env::get('SLACK_CHANNEL'));
-        Config::set('notification.slack.username', Env::get('SLACK_SENDER_NAME'));
+        Config::set('notification.slack.channel', Env::get('SLACK_NOTIFICATION_CHANNEL'));
+        Config::set('notification.slack.username', Env::get('SLACK_NOTIFICATION_SENDAR_NAME'));
     }
 
     protected function tearDown(): void
@@ -26,7 +24,7 @@ class SlackNotificationTest extends TestCase
         parent::tearDown();
     }
 
-    public function test_No_URL()
+    public function test_failed_to_send_a_message_when_not_set_webhook_url()
     {
         Config::set('notification.slack.webhook_url', '');
 
@@ -40,7 +38,7 @@ class SlackNotificationTest extends TestCase
         $this->assertFalse($service->notify($messageContent));
     }
 
-    public function test_No_Channel()
+    public function test_failed_to_send_a_message_when_not_set_channel()
     {
         Config::set('notification.slack.channel', '');
 
@@ -54,9 +52,9 @@ class SlackNotificationTest extends TestCase
         $this->assertFalse($service->notify($messageContent));
     }
 
-    public function test_No_Username()
+    public function test_successed_to_send_a_message_when_not_set_sender_name()
     {
-        Config::set('notification.slack.username', '');
+        Config::set('notification.slack.sender_name', '');
 
         $messageContent = new NotificationMessageContent(
             'sample title',
@@ -68,11 +66,11 @@ class SlackNotificationTest extends TestCase
         $this->assertTrue($service->notify($messageContent));
     }
 
-    public function test_OK()
+    public function test_successed_to_send_a_message_normally()
     {
         Config::set('notification.slack.webhook_url', Env::get('SLACK_WEBHOOK_URL'));
-        Config::set('notification.slack.channel', Env::get('SLACK_CHANNEL'));
-        Config::set('notification.slack.sender_name', Env::get('SLACK_SENDER_NAME'));
+        Config::set('notification.slack.channel', Env::get('SLACK_NOTIFICATION_CHANNEL'));
+        Config::set('notification.slack.sender_name', Env::get('SLACK_NOTIFICATION_SENDAR_NAME'));
 
         $messageContent = new NotificationMessageContent(
             'sample title',

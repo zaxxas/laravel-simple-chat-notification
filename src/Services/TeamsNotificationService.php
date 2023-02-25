@@ -20,12 +20,13 @@ class TeamsNotificationService extends NotificationService
     public function buildJsonPayload(NotificationMessageContent $content): ?array
     {
         // arrange values according to Teams specification
-        $arrangedKeyValues = collect($content->keyValueFields)->map(function ($value, $key) {
-            return [
-                'name' => $key,
-                'value' => str_replace("\r\n", "\n\n", $value)
+        $arrangedKeyValues = [];
+        foreach ($content->keyValueFields as $key => $value) {
+            $arrangedKeyValues[] = [
+                'name'  => $key,
+                'value' => str_replace("\r\n", "\n\n", $value) // \n一つだけだとTeamsのコメント上改行しなかったので二つに。
             ];
-        });
+        }
         return [
             'title' => $content->title,
             'text'  => $content->message,

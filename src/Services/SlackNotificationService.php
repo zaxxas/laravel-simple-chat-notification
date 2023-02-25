@@ -24,12 +24,6 @@ class SlackNotificationService extends NotificationService
      */
     protected function buildJsonPayload(NotificationMessageContent $content): ?array
     {
-        $arrangedKeyValues = collect($content->keyValueFields)->map(function ($value, $key) {
-            return [
-                'title' => $key,
-                'value' => $value,
-            ];
-        });
         return [
             'channel' => $this->defaultChannel,
             // Display "System" if username is not set
@@ -39,7 +33,12 @@ class SlackNotificationService extends NotificationService
                     'text'   => $content->message,
                     // TODO: Make color changable
                     'color'  => 'good',
-                    "fields" => $arrangedKeyValues
+                    "fields" => collect($content->keyValueFields)->map(function ($value, $key) {
+                        return [
+                            'title' => $key,
+                            'value' => $value,
+                        ];
+                    })
                 ]
             ]
         ];
@@ -55,8 +54,6 @@ class SlackNotificationService extends NotificationService
     }
 
     /**
-     * Undocumented function
-     *
      * @override
      * @return string|null
      */
@@ -66,10 +63,8 @@ class SlackNotificationService extends NotificationService
     }
 
     /**
-     * Undocumented function
-     *
      * @override
-     * @return array
+     * @return array|string
      */
     protected function postHeader(): array|string
     {

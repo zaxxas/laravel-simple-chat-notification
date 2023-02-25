@@ -13,7 +13,7 @@ class NotificationServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../config/notification.php' => config_path('notification.php'),
+            __DIR__ . '/../Config/notification.php' => config_path('notification.php'),
         ]);
     }
     /**

@@ -7,7 +7,10 @@ use Zaxxas\NotifyToChatTools\Dtos\NotificationMessageContent;
 use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Config;
 
-abstract class NotificationService
+/**
+ * Base service class for notification logic.
+ */
+abstract class NotificationService implements NotificationServiceInterface
 {
     protected Client $http;
 
@@ -17,6 +20,8 @@ abstract class NotificationService
     }
 
     /**
+     * Send message on specified chat tool.
+     * @override
      * @param NotificationMessageContent $content
      * @return bool
      */
@@ -42,30 +47,27 @@ abstract class NotificationService
     }
 
     /**
-     * Undocumented function
-     *
+     * Endpoint's url, basically, We assume a webhook url.
      * @return string|null
      */
     abstract protected function url(): ?string;
 
     /**
-     * Undocumented function
-     *
+     * Build a json payload according to the specification of target tool.
      * @param array $content
      * @return array|null
      */
     abstract protected function buildJsonPayload(NotificationMessageContent $content): ?array;
 
     /**
-     * Undocumented function
-     *
-     * @return array
+     * Header Content when send a message by Http Client tool.
+     * @return array|string
      */
     abstract protected function postHeader(): array|string;
 
     /**
-     * Undocumented function
-     *
+     * Check if the conditions for sending a message are met.
+     * We assume that you may override this function for each notification tool.
      * @return boolean
      */
     protected function canSend(): bool

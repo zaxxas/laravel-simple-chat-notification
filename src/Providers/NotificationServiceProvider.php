@@ -26,6 +26,9 @@ class NotificationServiceProvider extends ServiceProvider
         $this->app->singleton("notificationToChatTool", function () {
             return new NotificationToChatToolsService();
         });
+
+        // TODO: DI of Notification Service
+        /*
         $this->app->bind(SlackNotificationService::class, function ($app) {
             return new SlackNotificationService(new \GuzzleHttp\Client());
         });
@@ -35,5 +38,6 @@ class NotificationServiceProvider extends ServiceProvider
         $this->app->bind(LineNotificationService::class, function ($app) {
             return new LineNotificationService(new \GuzzleHttp\Client());
         });
+        */
     }
 }

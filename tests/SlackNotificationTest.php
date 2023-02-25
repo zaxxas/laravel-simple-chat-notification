@@ -2,26 +2,33 @@
 
 namespace Illuminate\Tests\Notifications;
 
-use PHPUnit\Framework\TestCase;
+use Orchestra\Testbench\TestCase;
 use Zaxxas\NotifyToChatTools\Services\NotificationToChatToolsService;
 use Zaxxas\NotifyToChatTools\Dtos\NotificationMessageContent;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Env;
+use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 
 class SlackNotificationTest extends TestCase
 {
     protected function setUp(): void
     {
         parent::setUp();
-
-        putenv("NOTIFICATION_TOOL=slack");
+        Config::set('notification.tool', 'slack');
+        Config::set('notification.slack.webhook_url', Env::get('SLACK_WEBHOOK_URL'));
+        Config::set('notification.slack.channel', Env::get('SLACK_CHANNEL'));
+        Config::set('notification.slack.username', Env::get('SLACK_SENDER_NAME'));
     }
 
-    public function test_No_Webhook_Url()
+    protected function tearDown(): void
     {
-        putenv("SLACK_WEBHOOK_URL=https://hogehoge.example.com");
-        putenv("SLACK_CHANNEL=example-channel");
-        putenv("SLACK_SENDER_NAME=example");
+        parent::tearDown();
+    }
 
-        var_dump(config('notification.tool'));
+    public function test_No_URL()
+    {
+        Config::set('notification.slack.webhook_url', '');
 
         $messageContent = new NotificationMessageContent(
             'sample title',
@@ -30,9 +37,50 @@ class SlackNotificationTest extends TestCase
             []
         );
         $service = new NotificationToChatToolsService();
-        try {
-            $service->notify($messageContent);
-        } catch (\Exception $e) {
-        }
+        $this->assertFalse($service->notify($messageContent));
+    }
+
+    public function test_No_Channel()
+    {
+        Config::set('notification.slack.channel', '');
+
+        $messageContent = new NotificationMessageContent(
+            'sample title',
+            'sample message',
+            ['key1' => 'value1', 'key2' => 'value2'],
+            []
+        );
+        $service = new NotificationToChatToolsService();
+        $this->assertFalse($service->notify($messageContent));
+    }
+
+    public function test_No_Username()
+    {
+        Config::set('notification.slack.username', '');
+
+        $messageContent = new NotificationMessageContent(
+            'sample title',
+            'sample message',
+            ['key1' => 'value1', 'key2' => 'value2'],
+            []
+        );
+        $service = new NotificationToChatToolsService();
+        $this->assertTrue($service->notify($messageContent));
+    }
+
+    public function test_OK()
+    {
+        Config::set('notification.slack.webhook_url', Env::get('SLACK_WEBHOOK_URL'));
+        Config::set('notification.slack.channel', Env::get('SLACK_CHANNEL'));
+        Config::set('notification.slack.sender_name', Env::get('SLACK_SENDER_NAME'));
+
+        $messageContent = new NotificationMessageContent(
+            'sample title',
+            'sample message',
+            ['key1' => 'value1', 'key2' => 'value2'],
+            []
+        );
+        $service = new NotificationToChatToolsService();
+        $this->assertTrue($service->notify($messageContent));
     }
 }

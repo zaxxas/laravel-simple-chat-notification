@@ -1,3 +1,6 @@
 vendor/*
 .php-cs-fixer.cache
 .phpunit.result.cache
+_ide_helper.php
+.env
+.env.testing

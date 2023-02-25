@@ -16,7 +16,6 @@ class NotificationToChatToolsService
     public function notify(NotificationMessageContent $messageContent): bool
     {
         $notificationTool = NotificationTool::tryFrom(config('notification.tool'));
-
         if (empty($notificationTool)) {
             throw new \Exception("Invalid Notification Tool is specified. Please check env variables.");
         }
@@ -35,6 +34,12 @@ class NotificationToChatToolsService
         }
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param NotificationTool $tool
+     * @return NotificationService
+     */
     private function createNotificationInstance(NotificationTool $tool): NotificationService
     {
         switch ($tool->value) {

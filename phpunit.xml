@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         processIsolation="false"
+         stopOnError="false"
+         stopOnFailure="false"
+>
+    <testsuites>
+        <testsuite name="test">
+            <directory suffix="Test.php">./tests</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <env name="APP_ENV" value="testing" />
+        <env name="NOTIFICATION_TOOL" value="slack" />
+        <env name="TEAMS_WEBHOOK_URL" value="hoge" />
+        <env name="SLACK_WEBHOOK_URL" value="hoge" />
+        <env name="SLACK_CHANNEL" value="hoge" />
+        <env name="SLACK_SENDER_NAME" value="hoge" />
+        <env name="LINE_API_ENDPOINT" value="hoge" />
+        <env name="LINE_API_TOKEN" value="hoge" />
+    </php>
+</phpunit>

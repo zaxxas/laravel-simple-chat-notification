@@ -51,7 +51,7 @@ class SlackNotificationService extends NotificationService
      */
     protected function canSend(): bool
     {
-        return parent::canSend() && isset($this->defaultChannel);
+        return parent::canSend() && !empty($this->defaultChannel);
     }
 
     /**

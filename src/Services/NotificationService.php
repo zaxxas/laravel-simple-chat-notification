@@ -4,6 +4,8 @@ namespace Zaxxas\NotifyToChatTools\Services;
 
 use GuzzleHttp\Client;
 use Zaxxas\NotifyToChatTools\Dtos\NotificationMessageContent;
+use \Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Config;
 
 abstract class NotificationService
 {
@@ -15,22 +17,27 @@ abstract class NotificationService
     }
 
     /**
-     * @param [type] $content
-     * @return void
+     * @param NotificationMessageContent $content
+     * @return bool
      */
-    public function send(NotificationMessageContent $content)
+    public function send(NotificationMessageContent $content): bool
     {
         if (!$this->canSend()) {
-            throw new \Exception("Stop to send a message, because of some reasons, for example, lack of needed parameters");
+            throw new \Exception(
+                "Stop to send a message, because of some reasons, for example, lack of needed parameters."
+            );
         }
         $result = $this->http->post($this->url(), [
             "header"  => $this->postHeader(),
             "json" => $this->buildJsonPayload($content),
         ]);
-        if ($result->getStatusCode() === 200) {
+        if ($result->getStatusCode() === Response::HTTP_OK) {
             return true;
         }
-        \Log::error('Failed to send a message', ['result' => $result]);
+        \Log::error('Failed to send a message', [
+            'status' => $result->getStatusCode(),
+            'result' => $result
+        ]);
         return false;
     }
 

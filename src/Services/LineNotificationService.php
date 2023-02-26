@@ -17,12 +17,12 @@ class LineNotificationService extends NotificationService
     /**
      * @override
      * @param NotificationMessageContent $content
-     * @return array|null
+     * @return string|null
      */
-    public function buildJsonPayload(NotificationMessageContent $content): ?array
+    public function buildJsonPayload(NotificationMessageContent $content): array
     {
         return [
-            'content' => $content->message,
+            'message' => $content->message,
         ];
     }
 
@@ -36,28 +36,23 @@ class LineNotificationService extends NotificationService
     }
 
     /**
-     * Undocumented function
-     *
      * @override
      * @return string|null
      */
     public function url(): ?string
     {
-        return config('notification.line.endpoint');
+        return config('notification.line.endpoint_url');
     }
 
     /**
-     * Undocumented function
-     *
      * @override
      * @return array
      */
-    public function postHeader(): array
+    public function postHeader(): array|string
     {
-        $token = config('notification.line.token');
         return [
             'Content-Type' => 'application/x-www-form-urlencoded',
-            "Authorization" => `Bearer ${token}`,
+            "Authorization" => "Bearer {$this->token}",
         ];
     }
 }

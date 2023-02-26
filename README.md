@@ -1,1 +1,3 @@
-# notification-to-sns-chat-tools
+# laravel-simple-chat-notification
+
+## Comming Soon...

@@ -5,11 +5,12 @@ namespace Zaxxas\NotifyToChatTools\Services;
 use Zaxxas\NotifyToChatTools\Enums\NotificationTool;
 use Zaxxas\NotifyToChatTools\Dtos\NotificationMessageContent;
 use Log;
+use Illuminate\Support\Facades\Config;
 
 class NotificationToChatToolsService
 {
     /**
-     * Notify to the target tool.
+     * Notify to the given tool.
      * @param NotificationMessageContent $messageContent
      * @return boolean
      */
@@ -17,7 +18,7 @@ class NotificationToChatToolsService
     {
         $notificationTool = NotificationTool::tryFrom(config('notification.tool'));
         if (empty($notificationTool)) {
-            throw new \Exception("Invalid Notification Tool is specified. Please check env variables.");
+            throw new \Exception("Invalid Notification Tool is specified. Please check values of .env file.");
         }
 
         $toolService = $this->createNotificationInstance($notificationTool);
@@ -42,11 +43,11 @@ class NotificationToChatToolsService
     {
         switch ($tool->value) {
             case NotificationTool::Slack->value:
-                return new SlackNotificationService;
+                return new SlackNotificationService();
             case NotificationTool::Teams->value:
-                return new TeamsNotificationService;
+                return new TeamsNotificationService();
             case NotificationTool::Line->value:
-                return new LineNotificationService;
+                return new LineNotificationService();
             default:
                 throw new \Exception("Invalid Notification Tool");
         }

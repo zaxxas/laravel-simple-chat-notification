@@ -4,6 +4,7 @@ namespace Zaxxas\NotifyToChatTools\Services;
 
 use Zaxxas\NotifyToChatTools\Dtos\NotificationMessageContent;
 use GuzzleHttp\Client;
+use Zaxxas\NotifyToChatTools\Dtos\SlackNotificationMessageContent;
 
 class SlackNotificationService extends NotificationService
 {
@@ -24,22 +25,26 @@ class SlackNotificationService extends NotificationService
      */
     protected function buildJsonPayload(NotificationMessageContent $content): ?array
     {
+        $attachment = [
+            'text'   => $content->message,
+            "fields" => collect($content->keyValueFields)->map(function ($value, $key) {
+                return [
+                    'title' => $key,
+                    'value' => $value,
+                ];
+            })
+        ];
+
         return [
             'channel' => $this->defaultChannel,
             // Display "System" if username is not set
             'username' => $this->username || "System",
             'attachments' => [
-                [
-                    'text'   => $content->message,
-                    // TODO: Make color changable
-                    'color'  => 'good',
-                    "fields" => collect($content->keyValueFields)->map(function ($value, $key) {
-                        return [
-                            'title' => $key,
-                            'value' => $value,
-                        ];
-                    })
-                ]
+                \array_merge(
+                    $attachment,
+                    ['color'  => '#33F'], // default color
+                    $content->otherParams
+                )
             ]
         ];
     }
@@ -69,7 +74,7 @@ class SlackNotificationService extends NotificationService
     protected function postHeader(): array|string
     {
         return [
-            'Content-Type' => 'application/x-www-form-urlencoded'
+            'Content-Type' => 'application/json',
         ];
     }
 }

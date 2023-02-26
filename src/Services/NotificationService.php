@@ -3,8 +3,9 @@
 namespace Zaxxas\NotifyToChatTools\Services;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
 use Zaxxas\NotifyToChatTools\Dtos\NotificationMessageContent;
-use \Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Config;
 
 /**
@@ -29,12 +30,12 @@ abstract class NotificationService implements NotificationServiceInterface
     {
         if (!$this->canSend()) {
             throw new \Exception(
-                "Stop to send a message, because of some reasons, for example, lack of needed parameters."
+                "Stop sending a message, because of some reasons, for example, lack of needed parameters."
             );
         }
         $result = $this->http->post($this->url(), [
-            "header"  => $this->postHeader(),
-            "json" => $this->buildJsonPayload($content),
+            "headers"  => $this->postHeader(),
+            $this->contentParamKey() => $this->buildJsonPayload($content),
         ]);
         if ($result->getStatusCode() === Response::HTTP_OK) {
             return true;
@@ -46,6 +47,25 @@ abstract class NotificationService implements NotificationServiceInterface
         return false;
     }
 
+    protected function contentParamKey()
+    {
+        $headers = $this->postHeader();
+        if (!array_key_exists("Content-Type", $headers)) {
+            throw new \Excpetion('Not Found Content-Type in Request header.');
+        }
+
+        switch ($headers['Content-Type']) {
+            case 'application/x-www-form-urlencoded':
+                return RequestOptions::FORM_PARAMS;
+            case 'application/json':
+                return RequestOptions::JSON;
+            case 'multipart/form-data':
+                return RequestOptions::MULTIPART;
+            default:
+                throw new \Excpetion('Invalid Content-Type specified.');
+        }
+    }
+
     /**
      * Endpoint's url, basically, We assume a webhook url.
      * @return string|null
@@ -54,10 +74,10 @@ abstract class NotificationService implements NotificationServiceInterface
 
     /**
      * Build a json payload according to the specification of target tool.
-     * @param array $content
-     * @return array|null
+     * @param NotificationMessageContent $content
+     * @return array|string|null
      */
-    abstract protected function buildJsonPayload(NotificationMessageContent $content): ?array;
+    abstract protected function buildJsonPayload(NotificationMessageContent $content): array|string|null;
 
     /**
      * Header Content when send a message by Http Client tool.

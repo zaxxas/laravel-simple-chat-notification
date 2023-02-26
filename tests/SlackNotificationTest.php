@@ -26,13 +26,13 @@ class SlackNotificationTest extends TestCase
 
     public function test_failed_to_send_a_message_when_not_set_webhook_url()
     {
+        // clear webhook url
         Config::set('notification.slack.webhook_url', '');
 
         $messageContent = new NotificationMessageContent(
-            'sample title',
-            'sample message',
-            ['key1' => 'value1', 'key2' => 'value2'],
-            []
+            title: 'sample title',
+            message: 'sample message',
+            keyValueFields: ['key1' => 'value1', 'key2' => 'value2'],
         );
         $service = new NotificationToChatToolsService();
         $this->assertFalse($service->notify($messageContent));
@@ -40,13 +40,13 @@ class SlackNotificationTest extends TestCase
 
     public function test_failed_to_send_a_message_when_not_set_channel()
     {
+        // clear channel name
         Config::set('notification.slack.channel', '');
 
         $messageContent = new NotificationMessageContent(
-            'sample title',
-            'sample message',
-            ['key1' => 'value1', 'key2' => 'value2'],
-            []
+            title: 'sample title',
+            message: 'sample message',
+            keyValueFields: ['key1' => 'value1', 'key2' => 'value2'],
         );
         $service = new NotificationToChatToolsService();
         $this->assertFalse($service->notify($messageContent));
@@ -54,13 +54,13 @@ class SlackNotificationTest extends TestCase
 
     public function test_successed_to_send_a_message_when_not_set_sender_name()
     {
+        // clear sendar name
         Config::set('notification.slack.sender_name', '');
 
         $messageContent = new NotificationMessageContent(
-            'sample title',
-            'sample message',
-            ['key1' => 'value1', 'key2' => 'value2'],
-            []
+            title: 'sample title',
+            message: 'sample message',
+            keyValueFields: ['key1' => 'value1', 'key2' => 'value2'],
         );
         $service = new NotificationToChatToolsService();
         $this->assertTrue($service->notify($messageContent));
@@ -73,10 +73,14 @@ class SlackNotificationTest extends TestCase
         Config::set('notification.slack.sender_name', Env::get('SLACK_NOTIFICATION_SENDAR_NAME'));
 
         $messageContent = new NotificationMessageContent(
-            'sample title',
-            'sample message',
-            ['key1' => 'value1', 'key2' => 'value2'],
-            []
+            title: 'sample title',
+            message: 'sample message',
+            keyValueFields: ['key1' => 'value1', 'key2' => 'value2'],
+            otherParams: [
+                'color' => '#F00',
+                'footer' => 'Slack API',
+                'ts' => time(),
+            ]
         );
         $service = new NotificationToChatToolsService();
         $this->assertTrue($service->notify($messageContent));

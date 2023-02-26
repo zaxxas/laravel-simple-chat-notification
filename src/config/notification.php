@@ -13,7 +13,7 @@ return [
         'sender_name' => env('SLACK_NOTIFICATION_SENDAR_NAME'),
     ],
     'line' => [
-        'url' => env('LINE_API_ENDPOINT'),
+        'endpoint_url' => env('LINE_API_ENDPOINT'),
         'token' => env('LINE_API_TOKEN'),
     ]
 ];

@@ -14,7 +14,7 @@ class NotificationServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../Config/notification.php' => config_path('notification.php'),
-        ]);
+        ], 'laravel-simple-chat-notification');
     }
     /**
      * Register the service provider.

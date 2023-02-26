@@ -1,3 +1,4 @@
+## Overview
 This repository is a library for Laravel to notify business chat tools.
 Currently, the following are covered
 - Slack (webhook only)
@@ -8,7 +9,7 @@ Currently, it can only send notifications synchronously.
 Asynchronous support will be added in the future.
 
 ## Usage
-- Move root directory of target laravel project.
+- Move to root directory of target laravel project.
 - Run the commands below
     - Install this library.
         - `composer require zaxxas/laravel-simple-chat-notification`.

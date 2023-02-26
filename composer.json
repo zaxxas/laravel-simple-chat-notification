@@ -1,5 +1,5 @@
 {
-    "name": "zaxxas/notify-to-chat-tools",
+    "name": "zaxxas/laravel-simple-chat-notification",
     "description": "This package is implemented for notifying to specified chat tools (slack, .etc)",
     "type": "library",
     "license": "MIT",

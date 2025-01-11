@@ -15,22 +15,19 @@
         }
     },
     "authors": [
-        {
-            "name": "zaxxas",
-            "email": "zaxxxxxas@gmail.com"
+    {
+        "name": "zaxxas",
+        "email": "zaxxxxxas@gmail.com"
         }
     ],
     "require": {
-        "php": "^8.1.0",
+        "php": "^8.4.0",
         "guzzlehttp/guzzle": "^7.5",
-        "illuminate/collections": "^9.0"
+        "illuminate/collections": "^9.0 || ^10.0 || ^11.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5.1",
-        "friendsofphp/php-cs-fixer": "^3.0",
-        "orchestra/testbench": "^7.22.1",
-        "phpstan/phpstan": "1.10.x-dev",
-        "barryvdh/laravel-ide-helper": "^2.13@dev"
+        "orchestra/testbench": "^8.0"
     },
     "scripts": {
         "test": [

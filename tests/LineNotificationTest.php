@@ -52,8 +52,8 @@ class LineNotificationTest extends TestCase
 
     public function test_succeeded_to_send_a_message()
     {
-        Config::set('notification.line.endpoint_url', Env::get('LINE_API_ENDPOINT'));
-        Config::set('notification.line.token', Env::get('LINE_API_TOKEN'));
+        Config::set('notification.line.endpoint_url', 'https://test.line');
+        Config::set('notification.line.token', 'dummy-line-token');
 
         $messageContent = new NotificationMessageContent(
             title: '',
